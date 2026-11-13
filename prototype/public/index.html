@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="color-scheme" content="dark light">
+<title>massa</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#f7f3f0">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="massa">
+<link rel="stylesheet" href="styles.css?v=96">
+</head>
+<body>
+
+<div class="stage">
+  <div class="phone" id="phone">
+    <div class="app" id="app">
+
+  <!-- ============ AUTH ============ -->
+  <section class="auth" id="auth-screen" hidden>
+    <div class="auth__bg" aria-hidden="true">
+      <span class="blob blob--1"></span>
+      <span class="blob blob--2"></span>
+      <span class="blob blob--3"></span>
+    </div>
+
+    <div class="auth__card">
+      <div class="brand">
+        <div class="brand__word">MASSA</div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Вход или регистрация">
+        <button class="tab is-active" type="button" data-tab="login" role="tab" aria-selected="true">Вход</button>
+        <button class="tab" type="button" data-tab="register" role="tab" aria-selected="false">Регистрация</button>
+      </div>
+
+      <form class="form" id="auth-form" novalidate>
+        <label class="field">
+          <span class="field__label">Почта</span>
+          <span class="input-wrap" id="email-wrap">
+            <input class="input" id="email" type="email" inputmode="email" autocomplete="email"
+                   placeholder="you@mail.com" spellcheck="false" autocapitalize="off">
+            <span class="input-state" id="email-state" aria-hidden="true"></span>
+          </span>
+          <span class="field__error" id="email-error" role="alert"></span>
+        </label>
+
+        <label class="field">
+          <span class="field__label">Пароль</span>
+          <span class="input-wrap">
+            <input class="input" id="password" type="password" autocomplete="current-password"
+                   placeholder="Минимум 6 символов">
+            <button class="input-eye" id="toggle-password" type="button" aria-label="Показать пароль">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </span>
+          <span class="field__error" id="password-error" role="alert"></span>
+        </label>
+
+        <label class="field" id="password2-field" hidden>
+          <span class="field__label">Повторите пароль</span>
+          <span class="input-wrap" id="password2-wrap">
+            <input class="input" id="password2" type="password" autocomplete="new-password"
+                   placeholder="Ещё раз, чтобы не ошибиться">
+            <span class="input-state" id="password2-state" aria-hidden="true"></span>
+          </span>
+          <span class="field__error" id="password2-error" role="alert"></span>
+        </label>
+
+        <button class="btn btn--primary" type="submit" id="auth-submit">Войти</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ MESSENGER ============ -->
+  <section class="messenger" id="chat-screen" hidden>
+    <aside class="sidebar">
+      <header class="sidebar__top glass">
+        <div class="me">
+          <span class="avatar avatar--me" id="me-avatar">?</span>
+          <span class="me__text">
+            <b id="me-name">—</b>
+            <small id="me-email">—</small>
+          </span>
+        </div>
+        <div class="sidebar__actions">
+          <button class="icon-btn" id="menu-btn" type="button" title="Меню" aria-label="Меню" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3.2"></circle>
+              <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.11-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.65 8.6a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1.03-1.56V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.56 1.03H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1Z"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <button class="search-trigger" id="search-trigger" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+          <circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path>
+        </svg>
+        <span>Поиск</span>
+      </button>
+
+      <button class="fav-row" id="fav-row" type="button">
+        <span class="fav-row__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
+            <path d="M6 3.5h12a1 1 0 0 1 1 1v16l-7-4.4-7 4.4v-16a1 1 0 0 1 1-1Z"></path>
+          </svg>
+        </span>
+        <span class="fav-row__main">
+          <span class="fav-row__name">Избранное</span>
+          <span class="fav-row__sub">Заметки и ссылки для себя</span>
+        </span>
+        <span class="fav-row__count" id="fav-count">0</span>
+      </button>
+
+      <div class="list-head">
+        <span>Чаты</span>
+        <span class="list-head__count" id="chat-count">0</span>
+      </div>
+
+      <div class="chat-list" id="chat-list" role="list"></div>
+
+      <div class="list-empty" id="list-empty" hidden>
+        <div class="list-empty__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="8" r="3.4"></circle>
+            <path d="M2.8 19.2a6.2 6.2 0 0 1 12.4 0"></path>
+            <path d="M18.5 8.5v5M16 11h5"></path>
+          </svg>
+        </div>
+        <b>Пока никого нет</b>
+        <span>Найдите людей и группы через поиск — они появятся здесь.</span>
+        <button class="btn btn--ghost" id="list-empty-cta" type="button">Открыть поиск</button>
+      </div>
+    </aside>
+
+    <main class="chat" id="chat-panel">
+      <div class="conversation" id="conversation" hidden>
+        <header class="conv__head glass" id="conv-head">
+          <button class="icon-btn conv__back" id="conv-back" type="button" aria-label="Назад к чатам">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 5l-7 7 7 7"></path>
+            </svg>
+          </button>
+          <span class="avatar avatar--sm" id="conv-avatar">?</span>
+          <div class="conv__meta">
+            <b id="conv-name">—</b>
+            <small id="conv-status">—</small>
+          </div>
+          <span class="conv__chev" id="conv-chev" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 5l7 7-7 7"></path>
+            </svg>
+          </span>
+        </header>
+
+        <button class="conv__down" id="conv-down" type="button" aria-label="Вниз" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v13"></path><path d="M6 12l6 6 6-6"></path>
+        </svg>
+      </button>
+      <div class="conv__body" id="messages"></div>
+
+        <div class="reply-bar" id="reply-bar" hidden>
+          <span class="reply-bar__text" id="reply-bar-text"></span>
+          <button class="icon-btn" id="reply-cancel" type="button" aria-label="Отменить ответ">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M6 6l12 12M18 6L6 18"></path>
+            </svg>
+          </button>
+        </div>
+
+        <form class="composer glass" id="composer" autocomplete="off">
+          <button class="icon-btn" id="attach-btn" type="button" title="Прикрепить файл" aria-label="Прикрепить файл">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 11.5 12.3 19a4.6 4.6 0 0 1-6.5-6.5l7.6-7.6a3 3 0 0 1 4.3 4.3l-7.6 7.6a1.5 1.5 0 0 1-2.1-2.1l7-7"></path>
+            </svg>
+          </button>
+<input class="composer__input" id="message-input" type="text" placeholder="Написать сообщение…" autocomplete="off">
+          <button class="btn-send" type="submit" aria-label="Отправить">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.2 2-12.2 2z"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </main>
+  </section>
+
+  <div class="menu-scrim" id="menu-scrim" hidden></div>
+  <div class="menu glass" id="menu" hidden>
+  <button type="button" class="menu__item" data-action="newgroup">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9" cy="8" r="3.2"></circle>
+      <path d="M3 19a6 6 0 0 1 12 0"></path>
+      <path d="M18 8v6M15 11h6"></path>
+    </svg>
+    Создать группу
+  </button>
+  <button type="button" class="menu__item" data-action="settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <path d="M4 7h9M18.5 7H20M4 17h3M12.5 17H20"></path>
+      <circle cx="15.2" cy="7" r="2.3"></circle>
+      <circle cx="9.5" cy="17" r="2.3"></circle>
+    </svg>
+    Настройки
+  </button>
+  <button type="button" class="menu__item" data-action="about">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M12 11.2v5.3"></path>
+      <circle cx="12" cy="8" r="1"></circle>
+    </svg>
+    О приложении
+  </button>  <button type="button" class="menu__item menu__item--danger" data-action="logout">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+      <path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path>
+    </svg>
+    Выйти
+  </button>
+</div>
+
+
+  <div class="about" id="about-screen" hidden>
+    <div class="about__card glass" role="dialog" aria-label="О приложении">
+      <div class="about__word">MASSA</div>
+      <dl class="about__list">
+        <div><dt>Версия</dt><dd>1.0</dd></div>
+        <div><dt>Сервер</dt><dd>50-114-115-15.sslip.io</dd></div>
+        <div><dt>Аккаунты</dt><dd>на сервере</dd></div>
+        <div><dt>Сообщения</dt><dd>на сервере</dd></div>
+      </dl>
+      <button class="btn btn--primary is-ready" type="button" id="about-close">Закрыть</button>
+    </div>
+  </div>
+
+<div class="about" id="contact-screen" hidden>
+    <div class="about__card glass" role="dialog" aria-label="Контакт">
+      <span class="avatar avatar--lg" id="contact-avatar">?</span>
+      <div class="about__name" id="contact-name">—</div>
+      <div class="about__email" id="contact-email">—</div>
+      <button class="btn btn--primary is-ready" type="button" id="contact-close">Закрыть</button>
+    </div>
+  </div>
+
+  <div class="msg-menu__scrim" id="msg-menu-scrim" hidden></div>
+
+  <div class="msg-menu glass" id="msg-menu" hidden>
+    <button type="button" class="msg-menu__item" data-msg-action="reply">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 7 4 12l5 5"></path><path d="M4 12h9a6 6 0 0 1 6 6v1"></path>
+      </svg>
+      Ответ
+    </button>
+    <button type="button" class="msg-menu__item" id="msg-menu-readers" data-msg-action="readers">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+      </svg>
+      Кто прочитал
+    </button>
+  </div>
+
+  <div class="about" id="readers-screen" hidden>
+    <div class="about__card glass" role="dialog" aria-label="Кто прочитал">
+      <div class="about__name">Кто прочитал</div>
+      <div class="readers" id="readers-list"></div>
+      <button class="btn btn--primary is-ready" type="button" id="readers-close">Закрыть</button>
+    </div>
+  </div>
+
+  <div class="about" id="addmember-screen" hidden>
+    <div class="about__card glass" role="dialog" aria-label="Добавить участника">
+      <div class="about__name">Добавить участника</div>
+      <div class="readers" id="addmember-list"></div>
+      <button class="btn btn--primary is-ready" type="button" id="addmember-close">Закрыть</button>
+    </div>
+  </div>
+
+  <div class="about" id="confirm-screen" hidden>
+    <div class="about__card glass" role="dialog" aria-label="Подтверждение">
+      <div class="about__name" id="confirm-title">Подтверждение</div>
+      <div class="about__text" id="confirm-text"></div>
+      <div class="confirm__actions">
+        <button class="btn" type="button" id="confirm-cancel">Отмена</button>
+        <button class="btn btn--primary is-ready" type="button" id="confirm-ok">Да</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="preview" id="preview-screen" hidden>
+    <div class="preview__head">Предпросмотр</div>
+    <div class="preview__body" id="preview-body"></div>
+    <div class="preview__actions">
+      <button class="btn" type="button" id="preview-cancel">Отмена</button>
+      <button class="btn btn--primary is-ready" type="button" id="preview-send">Отправить</button>
+    </div>
+  </div>
+
+  <div class="video-full" id="video-screen" hidden>
+    <video id="video-full-player" controls playsinline></video>
+    <button class="video-full__close" id="video-close" type="button" aria-label="Закрыть">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+  </div>
+  <!-- ============ SETTINGS ============ -->
+  <section class="settings" id="settings-screen" hidden>
+    <header class="settings__head glass">
+      <button class="icon-btn" id="settings-back" type="button" aria-label="Назад">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"></path>
+        </svg>
+      </button>
+      <b>Настройки</b>
+    </header>
+
+    <div class="settings__body">
+      <div class="profile-card">
+        <button class="avatar avatar--lg" id="settings-avatar" type="button" aria-label="Сменить аватар">?</button>
+        <div class="profile-card__text">
+          <span class="profile-card__name">
+            <b id="settings-name">—</b>
+            <span class="role-chip" id="settings-role" hidden>админ</span>
+          </span>
+          <small id="settings-email">—</small>
+          <button class="link-btn" id="settings-change-avatar" type="button">Сменить фото</button>
+        </div>
+      </div>
+
+      <div class="settings__group">
+        <div class="settings__title">Акцентный цвет</div>
+        <div class="swatches" id="swatches" role="radiogroup" aria-label="Акцентный цвет"></div>
+        <div class="settings__hint"><span id="accent-name">Медь</span> · сохраняется в аккаунте</div>
+      </div>
+
+      <div class="settings__group">
+        <div class="settings__title">Тема</div>
+        <div class="segmented" id="theme-seg" role="group" aria-label="Тема">
+          <button type="button" data-theme-opt="dark">Тёмная</button>
+          <button type="button" data-theme-opt="light">Светлая</button>
+        </div>
+      </div>
+
+      <div class="settings__group settings__group--rows">
+        <button class="settings__row" type="button" data-settings-action="password">
+          <span>Пароль</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings__group" id="pwd-panel" hidden>
+        <div class="settings__title">Смена пароля</div>
+        <form class="pwd" id="pwd-form" novalidate>
+          <input class="input" id="pwd-old" type="password" placeholder="Старый пароль" autocomplete="current-password">
+          <input class="input" id="pwd-new" type="password" placeholder="Новый пароль" autocomplete="new-password">
+          <input class="input" id="pwd-repeat" type="password" placeholder="Повторите новый" autocomplete="new-password">
+          <div class="pwd__error" id="pwd-error"></div>
+          <button class="btn btn--primary is-ready" type="submit" id="pwd-submit">Сохранить пароль</button>
+        </form>
+      </div>
+      <div class="settings__group settings__group--rows">
+        <button class="settings__row" type="button" data-settings-action="logout">
+          <span>Выйти из аккаунта</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings__save">
+        <button class="btn btn--primary is-ready" type="button" id="settings-save">Сохранить настройки</button>
+      </div>
+
+      <div class="settings__foot">massa · данные на сервере</div>
+    </div>
+  </section>
+
+  <!-- ============ MEMBERS ============ -->
+  <section class="members" id="members-screen" hidden>
+    <header class="settings__head glass">
+      <button class="icon-btn" id="members-back" type="button" aria-label="Назад">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"></path>
+        </svg>
+      </button>
+      <b>Участники</b>
+    </header>
+
+    <div class="members__body">
+      <div class="members__group">
+        <span class="avatar avatar--lg avatar--color" id="members-avatar">?</span>
+        <div class="members__group-text">
+          <b id="members-name">—</b>
+          <small id="members-count">—</small>
+          <button class="link-btn" id="members-change-avatar" type="button">Сменить фото группы</button>
+        </div>
+      </div>
+
+      <div class="members__list" id="members-list"></div>
+
+      <button class="settings__row" id="members-add" type="button">
+        <span>Добавить участника</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M12 6v12M6 12h12"></path>
+        </svg>
+      </button>
+
+      <button class="settings__row settings__row--danger" id="members-leave" type="button">
+        <span>Выйти из группы</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ NEW GROUP ============ -->
+  <section class="newgroup" id="newgroup-screen" hidden>
+    <header class="settings__head glass">
+      <button class="icon-btn" id="newgroup-back" type="button" aria-label="Назад">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"></path>
+        </svg>
+      </button>
+      <b>Новая группа</b>
+      <button class="text-btn" id="newgroup-create" type="button" disabled>Создать</button>
+    </header>
+
+    <div class="newgroup__body">
+      <div class="newgroup__name">
+        <button class="newgroup__photo" id="newgroup-photo" type="button" aria-label="Фото группы">
+          <span class="avatar avatar--lg avatar--color" id="newgroup-avatar">Г</span>
+          <span class="newgroup__photo-hint">Фото</span>
+        </button>
+        <input class="input" id="newgroup-name" type="text" placeholder="Название группы"
+               maxlength="40" autocomplete="off">
+      </div>
+
+      <input class="input newgroup__filter" id="newgroup-filter" type="text"
+             placeholder="Кого добавить?" autocomplete="off">
+
+      <div class="newgroup__hint" id="newgroup-selected">Никого не выбрали</div>
+
+      <div class="newgroup__list" id="newgroup-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ SEARCH ============ -->
+  <div class="search-overlay" id="search-overlay" hidden>
+    <div class="search-panel" role="dialog" aria-modal="true" aria-label="Поиск">
+      <div class="search-panel__head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+          <circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path>
+        </svg>
+        <input id="search-input" type="text" placeholder="Имя или почта" autocomplete="off" spellcheck="false">
+        <button class="icon-btn" id="search-close" type="button" aria-label="Закрыть поиск">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M6 6l12 12M18 6 6 18"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="search-results" id="search-results"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+      <div class="lightbox" id="lightbox" hidden>
+        <img id="lightbox-img" alt="">
+      </div>
+
+      <input type="file" id="avatar-input" accept="image/*" hidden>
+      <input type="file" id="group-avatar-input" accept="image/*" hidden>
+      <input type="file" id="newgroup-avatar-input" accept="image/*" hidden>
+      <input type="file" id="file-input" accept="image/*,video/*,.pdf,.doc,.docx,.zip,.txt" multiple hidden>
+</div>
+  </div>
+</div>
+
+<noscript>
+  <div class="nojs">
+    <b>Нужен JavaScript</b>
+    <span>Прототип работает на скриптах. Открой файл в обычном браузере и разреши JavaScript для этой страницы.</span>
+  </div>
+</noscript>
+
+<script src="api.js?v=96"></script>
+<script src="app.js?v=96"></script>
+</body>
+</html>

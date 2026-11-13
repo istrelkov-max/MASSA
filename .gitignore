@@ -1,0 +1,35 @@
+# Секреты и локальные файлы — в репозиторий не попадают
+deploy.ps1
+.shots/
+avd/
+*.jks
+*.keystore
+*.p12
+secrets.*
+*.local
+
+# Android / Gradle
+apk/.gradle/
+apk/.idea/
+apk/build/
+apk/app/build/
+apk/local.properties
+apk/.kotlin/
+apk/captures/
+*.iml
+*.apk
+*.aab
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node
+node_modules/
+
+# Системное
+.DS_Store
+Thumbs.db
+*.log
+*.tmp

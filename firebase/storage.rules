@@ -1,0 +1,39 @@
+rules_version = '2';
+
+// Правила Firebase Storage.
+// Чтение вложений разрешено авторизованным пользователям:
+// в правилах Storage нельзя проверить членство в чате из Realtime Database,
+// поэтому защита строится на неугадываемых путях (UUID) и на том,
+// что ссылка выдаётся только участникам через RTDB.
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // вложения чатов: chats/<chatId>/<uuid>
+    match /chats/{chatId}/{fileId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null
+        && request.resource.size < 50 * 1024 * 1024
+        && (
+          request.resource.contentType.matches('image/.*') ||
+          request.resource.contentType.matches('video/.*') ||
+          request.resource.contentType.matches('audio/.*') ||
+          request.resource.contentType.matches('application/.*')
+        );
+      allow delete: if false;
+    }
+
+    // аватары пользователей: avatars/<uid>
+    match /avatars/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.size < 2 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+      allow delete: if false;
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
